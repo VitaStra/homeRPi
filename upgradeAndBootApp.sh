@@ -8,11 +8,11 @@ cd server
 npm install
 
 echo "================Starting the server=================="
-npm start
+npm start&
 
 echo "================Installing client dependencies=================="
 cd ../client
 npm install
 
 echo "================Starting the server=================="
-npm start
+npm start&
