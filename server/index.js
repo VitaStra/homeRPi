@@ -1,8 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const path = require('path');
-const { getDataFromFlowerpots, createNewFlowerPotEntry } = require("./utils/flowerPotHandler.js");
-const { getTempDataForRoomStats, getHumidityDataForRoomStats, getLastDataForRoomStats, getRoomSpecificDataForRoomStats, createNewRoomStatEntry } = require("./utils/roomStatsHandler.js");
+const { getSoilHumidityDataForFlowerPotStats, createNewFlowerPotEntry } = require("./dataHandlers/flowerPotHandler.js");
+const { getTempDataForRoomStats, getHumidityDataForRoomStats, getLastDataForRoomStats, getRoomSpecificDataForRoomStats, createNewRoomStatEntry } = require("./dataHandlers/roomStatsHandler.js");
 const app = express()
 const jsonParser = bodyParser.json();
 
@@ -12,27 +12,27 @@ app.get('/', function (req, res) {
   res.render('index.html');
 })
 
-app.get('/flowerpots', function (req, res) {
-  getDataFromFlowerpots()
-    .then((data) => {
-      console.log('res data: ' + data);
-      res.send(data);
+app.get('/flowerpots/soil', function (req, res) {
+  getSoilHumidityDataForFlowerPotStats()
+    .then((groupedByPlant) => {
+      console.log('res data: ' + groupedByPlant);
+      res.send({datasets:groupedByPlant});
     });
 })
 
 app.get('/rooms/temp', function (req, res) {
   getTempDataForRoomStats()
-    .then((groubedByRoom) => {
-        console.log('res data: ' + groubedByRoom);
-        res.send({datasets:groubedByRoom});
+    .then((groupedByRoom) => {
+        console.log('res data: ' + groupedByRoom);
+        res.send({datasets:groupedByRoom});
     })
 })
 
 app.get('/rooms/humidity', function (req, res) {
   getHumidityDataForRoomStats()
-    .then((groubedByRoom) => {
-        console.log('res data: ' + groubedByRoom);
-        res.send({datasets:groubedByRoom});
+    .then((groupedByRoom) => {
+        console.log('res data: ' + groupedByRoom);
+        res.send({datasets:groupedByRoom});
     })
 })
 

@@ -1,6 +1,7 @@
 const csv = require("csvtojson");
 const fs = require('fs');
-const path = require('path');
+const { convertToChartJSCoordinates } = require("../utils/chartJSUtils.js");
+const { groupBy, getLatestStat, getSheetColumns, getLastEntryIndex } = require("../utils/commonDataUtils.js");
 
 const FLOWERPOT_FILE_NAME = 'data/flowerpots.csv';
 const TIMESTAMP_HEADER = 'DateTime';
@@ -8,10 +9,9 @@ const ID_HEADER = 'Id';
 let lastLineIndex;
 let lastLine;
 
-async function getDataFromFlowerpots() {
+async function getSoilHumidityDataForFlowerPotStats() {
     const data = await csv().fromFile(FLOWERPOT_FILE_NAME);
-    console.log(data);
-    return data;
+    return convertToChartJSCoordinates(groupBy(data, 'Plant'), 'SoilHumidity');
 }
 
 function createNewFlowerPotEntry(jsonDetails) {
@@ -37,10 +37,6 @@ function createNewFlowerPotEntry(jsonDetails) {
     fs.writeFileSync(FLOWERPOT_FILE_NAME, updatedData);
 }
 
-const getSheetColumns = (firstLine) => {
-    return firstLine.split(',');
-}
-
 const getSystemValue = (keyValue) => {
     switch(keyValue) {
 		case TIMESTAMP_HEADER:
@@ -53,4 +49,4 @@ const getSystemValue = (keyValue) => {
 	}
 }
 
-module.exports = { getDataFromFlowerpots, createNewFlowerPotEntry };
+module.exports = { createNewFlowerPotEntry, getSoilHumidityDataForFlowerPotStats };

@@ -2,12 +2,14 @@ const lineColors = {
     0: 'rgb(255, 99, 132)',
     1: 'rgb(53, 162, 235)',
     2: 'rgb(255, 205, 86)',
+    3: 'rgb(75, 192, 192)',
 }
 
 const pointColors = {
     0: 'rgba(255, 99, 132, 0.5)',
     1: 'rgba(53, 162, 235, 0.5)',
     2: 'rgba(255, 205, 86, 0.5)',
+    3: 'rgba(75, 192, 192, 0.5)',
 }
 
 export function setBorderColors(datasets) {
