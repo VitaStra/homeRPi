@@ -9,10 +9,16 @@ const ID_HEADER = 'Id';
 let lastLineIndex;
 let lastLine;
 
-async function getDataForRoomStats() {
+async function getTempDataForRoomStats() {
     const data = await csv().fromFile(ROOM_STATS_FILE_NAME);
     console.log(data);
-    return convertToChartJSCoordinates(groupBy(data, 'RoomName'));
+    return convertToChartJSCoordinates(groupBy(data, 'RoomName'), 'Temperature');
+}
+
+async function getHumidityDataForRoomStats() {
+    const data = await csv().fromFile(ROOM_STATS_FILE_NAME);
+    console.log(data);
+    return convertToChartJSCoordinates(groupBy(data, 'RoomName'), 'Humidity');
 }
 
 async function getRoomSpecificDataForRoomStats(selectedRoomName) {
@@ -23,21 +29,21 @@ async function getRoomSpecificDataForRoomStats(selectedRoomName) {
     return result;
 }
 
-async function getLastDataForRoomStats(selectedRoomName) {
+async function getLastDataForRoomStats(selectedRoomName, attribute) {
     console.log('selectedRoomName: ' + selectedRoomName);
     const data = await csv().fromFile(ROOM_STATS_FILE_NAME);
     if(selectedRoomName === 'all') {
         const allStatsByRoomName = groupBy(data, 'RoomName');
         console.log(allStatsByRoomName);
         return Object.keys(allStatsByRoomName).reduce((newList, key) => {
-            newList.push({"label": key, "value": getLatestStat(allStatsByRoomName[key]).Temperature});
+            newList.push({"label": key, "value": getLatestStat(allStatsByRoomName[key])[attribute]});
             return newList;
         }, []);
     } else {
         const resultsFromSpecificRoom = data.filter(({ RoomName }) => RoomName.toLowerCase() === selectedRoomName.toLowerCase());
         const result = getLatestStat(resultsFromSpecificRoom);
         console.log(result);
-        return result?.Temperature;
+        return result[attribute];
     }
 }
 
@@ -92,7 +98,7 @@ const getLatestStat = (allDetails) => {
     return orderedList[orderedList.length-1];
 }
 
-var convertToChartJSCoordinates = function (groubedByRoom) {
+var convertToChartJSCoordinates = function (groubedByRoom, attribute) {
     let roomsWithData = [];
     Object.keys(groubedByRoom).forEach(function (category) {
         console.log(`Room ${category} has ${groubedByRoom[category].length} members : `);
@@ -102,7 +108,7 @@ var convertToChartJSCoordinates = function (groubedByRoom) {
         })
         let datesWithTemp = groubedByRoom[category].map(a => ({
             "x": a.DateTime,
-            "y": a.Temperature
+            "y": a[attribute]
         }), {});
         console.log(datesWithTemp);
         roomsWithData.push({ "label": category, "data": datesWithTemp });
@@ -111,4 +117,7 @@ var convertToChartJSCoordinates = function (groubedByRoom) {
     return roomsWithData;
 }
 
-module.exports = { getDataForRoomStats, getLastDataForRoomStats, getRoomSpecificDataForRoomStats, createNewRoomStatEntry };
+module.exports = { getTempDataForRoomStats, getHumidityDataForRoomStats, 
+                    getLastDataForRoomStats, 
+                    getRoomSpecificDataForRoomStats, 
+                    createNewRoomStatEntry };

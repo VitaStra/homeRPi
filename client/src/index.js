@@ -8,11 +8,13 @@ import reportWebVitals from './reportWebVitals';
 // import { SampleChart } from './SampleChart';
 // import { TemperatureChart } from './TemperatureChart';
 import TemperaturesSection from './TemperaturesSection';
+import HumiditySection from './HumiditySection';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
     <TemperaturesSection />
+    <HumiditySection />
     <ShoppingList name="Mark" />
   </React.StrictMode>,
   document.getElementById('root')

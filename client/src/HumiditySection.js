@@ -5,16 +5,16 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import CardsSection from './CardsSection';
 
-class TemperaturesSection extends React.Component {
+class HumiditySection extends React.Component {
     render() {
         return (
             <Container>
                 <Row className="align-items-center">
                     <Col sm={4}>
-                        <CardsSection metric="°C" apiService="temp/now/all"/>
+                        <CardsSection metric="%" apiService="humidity/now/all"/>
                     </Col>
                     <Col sm={8}>
-                        <LineChart apiService="rooms/temp" min="15" max="30" title="Teplota podle pokojů"/>
+                        <LineChart apiService="rooms/humidity" min="30" max="80" title="Vzdušná vlhkost podle pokojů"/>
                     </Col>
                 </Row>
             </Container>
@@ -22,4 +22,4 @@ class TemperaturesSection extends React.Component {
     }
 }
 
-export default TemperaturesSection;
+export default HumiditySection;

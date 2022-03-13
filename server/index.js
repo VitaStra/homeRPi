@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const path = require('path');
 const { getDataFromFlowerpots, createNewFlowerPotEntry } = require("./utils/flowerPotHandler.js");
-const { getDataForRoomStats, getLastDataForRoomStats, getRoomSpecificDataForRoomStats, createNewRoomStatEntry } = require("./utils/roomStatsHandler.js");
+const { getTempDataForRoomStats, getHumidityDataForRoomStats, getLastDataForRoomStats, getRoomSpecificDataForRoomStats, createNewRoomStatEntry } = require("./utils/roomStatsHandler.js");
 const app = express()
 const jsonParser = bodyParser.json();
 
@@ -21,7 +21,15 @@ app.get('/flowerpots', function (req, res) {
 })
 
 app.get('/rooms/temp', function (req, res) {
-  getDataForRoomStats()
+  getTempDataForRoomStats()
+    .then((groubedByRoom) => {
+        console.log('res data: ' + groubedByRoom);
+        res.send({datasets:groubedByRoom});
+    })
+})
+
+app.get('/rooms/humidity', function (req, res) {
+  getHumidityDataForRoomStats()
     .then((groubedByRoom) => {
         console.log('res data: ' + groubedByRoom);
         res.send({datasets:groubedByRoom});
@@ -37,7 +45,15 @@ app.get('/temp/:room', function (req, res) {
 })
 
 app.get('/temp/now/:room', function (req, res) {
-  getLastDataForRoomStats(req.params.room)
+  getLastDataForRoomStats(req.params.room, 'Temperature')
+    .then((data) => {
+      console.log('res data: ' + data);
+      res.send(data);
+    });
+})
+
+app.get('/humidity/now/:room', function (req, res) {
+  getLastDataForRoomStats(req.params.room, 'Humidity')
     .then((data) => {
       console.log('res data: ' + data);
       res.send(data);
