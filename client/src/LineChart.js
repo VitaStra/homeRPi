@@ -1,4 +1,5 @@
-import React from 'react'; import {
+import React from 'react';
+import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
@@ -21,41 +22,27 @@ ChartJS.register(
     Legend
 );
 
-export const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            //   position: 'top' as const,
-            position: 'top',
-        },
-        title: {
-            display: true,
-            text: 'Placeholder',
-        },
-    },
-    scales: {
-        y: {
-            min: 1,
-            max: 100,
-        },
-        x: {
-            // type: 'time',
-            // time: {
-            //     unit: "day",
-            // }
-        }
-    },
-};
-
-// this is getting overriden by "second call"
-export function LineChart(props) {
+function DataAsLineChart(props) {
     const [data, setData] = React.useState(null);
-
+    let options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: props.title ? props.title : 'Placeholder',
+            },
+        },
+        scales: {
+            y: {
+                min: parseInt(props.min) ? parseInt(props.min) : 100,
+                max: parseInt(props.max) ? parseInt(props.max) : 100,
+            },
+        },
+    };
     React.useEffect(() => {
-        console.log(props.apiService);
-        options.scales.y.min = parseInt(props.min);
-        options.scales.y.max = parseInt(props.max);
-        options.plugins.title.text = props.title;
         fetch(props.apiService)
             .then((res) => res.json())
             .then((data) => {
@@ -72,3 +59,13 @@ export function LineChart(props) {
         return <Line options={options} data={data} />;
     }
 }
+
+class LineChart extends React.Component {
+    render() {
+        return (
+            <DataAsLineChart apiService={this.props.apiService} min={this.props.min} max={this.props.max} title={this.props.title}/>
+        );
+    }
+}
+
+export default LineChart;

@@ -25,7 +25,7 @@ function RoomItems(props) {
     } else {
         return (
             roomData.map((data) =>
-                <Col sm={6}>
+                <Col sm={6} key={data.label}>
                     <Card
                         border="secondary"
                         bg="light"
@@ -50,11 +50,10 @@ function RoomItems(props) {
 function OutsideItems(props) {
     return (
         outside.map((data) =>
-            <Col sm={6}>
+            <Col sm={6} key={data.label}>
                 <Card
                     border="primary"
                     bg="light"
-                    key="1"
                     text='dark'
                     style={{ width: '10rem' }}
                     className="text-center"

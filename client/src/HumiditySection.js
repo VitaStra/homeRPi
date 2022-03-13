@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart } from './LineChart';
+import LineChart from './LineChart';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
