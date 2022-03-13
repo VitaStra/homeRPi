@@ -30,13 +30,13 @@ export const options = {
         },
         title: {
             display: true,
-            text: 'Teplota podle pokojů',
+            text: 'Placeholder',
         },
     },
     scales: {
         y: {
-            min: 15,
-            max: 30,
+            min: 1,
+            max: 100,
         },
         x: {
             // type: 'time',
@@ -47,11 +47,15 @@ export const options = {
     },
 };
 
-export function TemperatureChart(props) {
+// this is getting overriden by "second call"
+export function LineChart(props) {
     const [data, setData] = React.useState(null);
 
     React.useEffect(() => {
         console.log(props.apiService);
+        options.scales.y.min = parseInt(props.min);
+        options.scales.y.max = parseInt(props.max);
+        options.plugins.title.text = props.title;
         fetch(props.apiService)
             .then((res) => res.json())
             .then((data) => {

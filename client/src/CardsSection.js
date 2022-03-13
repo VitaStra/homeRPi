@@ -76,11 +76,11 @@ class CardsSection extends React.Component {
         return (
             <Container>
                 <Row>
-                    <RoomItems metric="°C" apiService="temp/now/all" />
+                    <RoomItems metric={this.props.metric} apiService={this.props.apiService} />
                 </Row>
                 <br />
                 <Row>
-                    <OutsideItems metric="°C" />
+                    <OutsideItems metric={this.props.metric} />
                 </Row>
             </Container>
         );
