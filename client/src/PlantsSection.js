@@ -10,11 +10,11 @@ class PlantsSection extends React.Component {
         return (
             <Container>
                 <Row className="align-items-center">
-                    {/* <Col sm={4}>
-                        <CardsSection metric="°C" apiService="temp/now/all"/>
-                    </Col> */}
+                    <Col sm={4}>
+                        <CardsSection metric="%" apiService="flowerpots/soil/now/all"/>
+                    </Col>
                     <Col sm={8}>
-                        <LineChart apiService="flowerpots/soil" min="80" max="180" title="Půdní vlhkost podle květin"/>
+                        <LineChart apiService="flowerpots/soil" min="20" max="180" title="Půdní vlhkost podle květin"/>
                     </Col>
                 </Row>
             </Container>

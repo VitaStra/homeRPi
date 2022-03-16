@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 // const rooms = [{ label: 'Obývák', value: 21.5 }, { label: 'Ložnice', value: 22.5 }];
 const outside = [{ label: 'Venku', value: 5.0 }];
 
-function RoomItems(props) {
+function UpperRowItems(props) {
     const [roomData, setData] = React.useState(null);
     React.useEffect(() => {
         console.log(props.apiService);
@@ -28,7 +28,7 @@ function RoomItems(props) {
                 <Col sm={6} key={data.label}>
                     <Card
                         border="secondary"
-                        bg="light"
+                        bg={data.showWarning ? "warning" : "light"}
                         key="1"
                         text='dark'
                         style={{ width: '10rem' }}
@@ -47,7 +47,7 @@ function RoomItems(props) {
     }
 }
 
-function OutsideItems(props) {
+function LowerRowItems(props) {
     return (
         outside.map((data) =>
             <Col sm={6} key={data.label}>
@@ -75,11 +75,11 @@ class CardsSection extends React.Component {
         return (
             <Container>
                 <Row>
-                    <RoomItems metric={this.props.metric} apiService={this.props.apiService} />
+                    <UpperRowItems metric={this.props.metric} apiService={this.props.apiService} />
                 </Row>
                 <br />
                 <Row>
-                    <OutsideItems metric={this.props.metric} />
+                    <LowerRowItems metric={this.props.metric} />
                 </Row>
             </Container>
         );
