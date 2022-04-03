@@ -1,7 +1,7 @@
 const csv = require("csvtojson");
 const fs = require('fs');
 const { convertToChartJSCoordinates } = require("../utils/chartJSUtils.js");
-const { groupBy, getLatestStat, getSheetColumns, getLastEntryIndex } = require("../utils/commonDataUtils.js");
+const { groupBy, getLatestStat, getSheetColumns, getLastEntryIndex, getCountryLocale, getDateTimeFormat } = require("../utils/commonDataUtils.js");
 
 
 const ROOM_STATS_FILE_NAME = 'data/roomStats.csv';
@@ -53,10 +53,12 @@ function createNewRoomStatEntry(jsonDetails) {
     lastLine = data.split('\n')[lastLineIndex];
     const sheetColumns = getSheetColumns(data);
     for (let index = 0; index < sheetColumns.length; index++) {
-        if (sheetColumns[index] === TIMESTAMP_HEADER || sheetColumns[index] === ID_HEADER) {
-            newDetails[index] = getSystemValue(sheetColumns[index]);
-        } else if (jsonDetails && jsonDetails[sheetColumns[index]]) {
-            newDetails[index] = jsonDetails[sheetColumns[index]];
+        const columnHeader = sheetColumns[index].replace(/\s/g, "");
+        console.log('---' + columnHeader + '---');
+        if (columnHeader === TIMESTAMP_HEADER || columnHeader === ID_HEADER) {
+            newDetails[index] = getSystemValue(columnHeader);
+        } else if (jsonDetails && jsonDetails[columnHeader]) {
+            newDetails[index] = jsonDetails[columnHeader];
         } else {
             newDetails[index] = '';
         }
@@ -69,7 +71,7 @@ function createNewRoomStatEntry(jsonDetails) {
 const getSystemValue = (keyValue) => {
     switch (keyValue) {
         case TIMESTAMP_HEADER:
-            return new Date().toLocaleString();
+            return new Date().toLocaleString(getCountryLocale(), getDateTimeFormat());
         case ID_HEADER:
             if (!lastLineIndex) {
                 return 1;

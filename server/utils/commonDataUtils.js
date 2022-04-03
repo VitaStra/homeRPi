@@ -20,4 +20,12 @@ const getLatestStat = (allDetails) => {
     return orderedList[orderedList.length-1];
 }
 
-module.exports = { groupBy, getLatestStat, getSheetColumns, getLastEntryIndex };
+const getCountryLocale = () => {
+    'en-GB';
+}
+
+const getDateTimeFormat = () => {
+    return {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute:'2-digit'};
+}
+
+module.exports = { groupBy, getLatestStat, getSheetColumns, getLastEntryIndex, getCountryLocale, getDateTimeFormat };
