@@ -1,8 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const path = require('path');
-const { getDataFromFlowerpots, createNewFlowerPotEntry } = require("./utils/flowerPotHandler.js");
-const { getTempDataForRoomStats, getHumidityDataForRoomStats, getLastDataForRoomStats, getRoomSpecificDataForRoomStats, createNewRoomStatEntry } = require("./utils/roomStatsHandler.js");
+const { getSoilHumidityDataForFlowerPotStats, getLastDataForSoilHumidityForFlowerPots, createNewFlowerPotEntry } = require("./dataHandlers/flowerPotHandler.js");
+const { getTempDataForRoomStats, getHumidityDataForRoomStats, getLastDataForRoomStats, getRoomSpecificDataForRoomStats, createNewRoomStatEntry } = require("./dataHandlers/roomStatsHandler.js");
 const app = express()
 const jsonParser = bodyParser.json();
 
@@ -12,34 +12,42 @@ app.get('/', function (req, res) {
   res.render('index.html');
 })
 
-app.get('/flowerpots', function (req, res) {
-  getDataFromFlowerpots()
-    .then((data) => {
-      console.log('res data: ' + data);
-      res.send(data);
+app.get('/flowerpots/soil', function (req, res) {
+  getSoilHumidityDataForFlowerPotStats()
+    .then((groupedByPlant) => {
+      // console.log('res data for: /flowerpots/soil \n' + JSON.stringify(groupedByPlant));
+      res.send({datasets:groupedByPlant});
     });
+})
+
+app.get('/flowerpots/soil/now/:plant', function (req, res) {
+  getLastDataForSoilHumidityForFlowerPots(req.params.plant, 'SoilHumidity')
+  .then((data) => {
+    // console.log(`res data for: flowerpots/soil/now/${req.params.plant} \n  ${JSON.stringify(data)}`);
+    res.send(data);
+  });
 })
 
 app.get('/rooms/temp', function (req, res) {
   getTempDataForRoomStats()
-    .then((groubedByRoom) => {
-        console.log('res data: ' + groubedByRoom);
-        res.send({datasets:groubedByRoom});
+    .then((groupedByRoom) => {
+        // console.log('res data for: /rooms/temp \n' + JSON.stringify(groupedByRoom));
+        res.send({datasets:groupedByRoom});
     })
 })
 
 app.get('/rooms/humidity', function (req, res) {
   getHumidityDataForRoomStats()
-    .then((groubedByRoom) => {
-        console.log('res data: ' + groubedByRoom);
-        res.send({datasets:groubedByRoom});
+    .then((groupedByRoom) => {
+        // console.log('res data for: /rooms/humidity \n' + JSON.stringify(groupedByRoom));
+        res.send({datasets:groupedByRoom});
     })
 })
 
 app.get('/temp/:room', function (req, res) {
   getRoomSpecificDataForRoomStats(req.params.room)
     .then((data) => {
-      console.log('res data: ' + data);
+      // console.log('res data: ' + data);
       res.send(data);
     });
 })
@@ -47,7 +55,7 @@ app.get('/temp/:room', function (req, res) {
 app.get('/temp/now/:room', function (req, res) {
   getLastDataForRoomStats(req.params.room, 'Temperature')
     .then((data) => {
-      console.log('res data: ' + data);
+      // console.log('res data: ' + data);
       res.send(data);
     });
 })
@@ -55,7 +63,7 @@ app.get('/temp/now/:room', function (req, res) {
 app.get('/humidity/now/:room', function (req, res) {
   getLastDataForRoomStats(req.params.room, 'Humidity')
     .then((data) => {
-      console.log('res data: ' + data);
+      // console.log('res data: ' + data);
       res.send(data);
     });
 })

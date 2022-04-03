@@ -3,19 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
-import ShoppingList from './ShoppingList';
+// import ShoppingList from './ShoppingList';
 import reportWebVitals from './reportWebVitals';
 // import { SampleChart } from './SampleChart';
 // import { TemperatureChart } from './TemperatureChart';
 import TemperaturesSection from './TemperaturesSection';
 import HumiditySection from './HumiditySection';
+import PlantsSection from './PlantsSection';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
     <TemperaturesSection />
     <HumiditySection />
-    <ShoppingList name="Mark" />
+    <PlantsSection />
+    {/* <ShoppingList name="Mark" /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
