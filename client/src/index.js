@@ -3,26 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
-// import ShoppingList from './ShoppingList';
-import reportWebVitals from './reportWebVitals';
-// import { SampleChart } from './SampleChart';
-// import { TemperatureChart } from './TemperatureChart';
 import TemperaturesSection from './TemperaturesSection';
 import HumiditySection from './HumiditySection';
 import PlantsSection from './PlantsSection';
+import SeparatorLine from './SeparatorLine';
+import NavComponent from './NavComponent';
 
 ReactDOM.render(
   <React.StrictMode>
+    <NavComponent />
     <App />
     <TemperaturesSection />
+    <SeparatorLine />
     <HumiditySection />
+    <SeparatorLine />
     <PlantsSection />
-    {/* <ShoppingList name="Mark" /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

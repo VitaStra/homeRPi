@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import "./CardsSection.css";
 
 // const rooms = [{ label: 'Obývák', value: 21.5 }, { label: 'Ložnice', value: 22.5 }];
 const outside = [{ label: 'Venku', value: 5.0 }];
@@ -25,22 +26,23 @@ function UpperRowItems(props) {
     } else {
         return (
             roomData.map((data) =>
-                <Col sm={6} key={data.label}>
-                    <Card
-                        border="secondary"
-                        bg={data.showWarning ? "warning" : "light"}
-                        key="1"
-                        text='dark'
-                        style={{ width: '10rem' }}
-                        className="text-center"
-                    >
-                        <Card.Body>
-                            <Card.Title>{data.label} </Card.Title>
-                            <Card.Text>
-                                {data.value} {props.metric}
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
+                <Col sm={12} lg={6} key={data.label}>
+                    <div className="Card-ctr">
+                        <Card
+                            border="secondary"
+                            bg={data.showWarning ? "warning" : "light"}
+                            key="1"
+                            text='dark'
+                            style={{ width: '10rem' }}
+                        >
+                            <Card.Body>
+                                <Card.Title>{data.label} </Card.Title>
+                                <Card.Text>
+                                    {data.value} {props.metric}
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </div>
                 </Col>
             )
         );
@@ -50,21 +52,22 @@ function UpperRowItems(props) {
 function LowerRowItems(props) {
     return (
         outside.map((data) =>
-            <Col sm={6} key={data.label}>
-                <Card
-                    border="primary"
-                    bg="light"
-                    text='dark'
-                    style={{ width: '10rem' }}
-                    className="text-center"
-                >
-                    <Card.Body>
-                        <Card.Title>{data.label}</Card.Title>
-                        <Card.Text>
-                            {data.value} {props.metric}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
+            <Col sm={12} key={data.label}>
+                <div className="Card-ctr">
+                    <Card
+                        border="primary"
+                        bg="light"
+                        text='dark'
+                        style={{ width: '10rem' }}
+                    >
+                        <Card.Body>
+                            <Card.Title>{data.label}</Card.Title>
+                            <Card.Text>
+                                {data.value} {props.metric}
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </div>
             </Col>
         )
     );
@@ -77,7 +80,6 @@ class CardsSection extends React.Component {
                 <Row>
                     <UpperRowItems metric={this.props.metric} apiService={this.props.apiService} />
                 </Row>
-                <br />
                 <Row>
                     <LowerRowItems metric={this.props.metric} />
                 </Row>

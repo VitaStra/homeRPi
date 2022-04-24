@@ -8,12 +8,13 @@ import CardsSection from './CardsSection';
 class PlantsSection extends React.Component {
     render() {
         return (
-            <Container>
+            <Container id='plantsSection'>
+                <h1>Rostliny</h1>
                 <Row className="align-items-center">
-                    <Col sm={4}>
+                    <Col sm={12} lg={4}>
                         <CardsSection metric="%" apiService="flowerpots/soil/now/all"/>
                     </Col>
-                    <Col sm={8}>
+                    <Col sm={12} lg={8}>
                         <LineChart apiService="flowerpots/soil" min="20" max="180" title="Půdní vlhkost podle květin"/>
                     </Col>
                 </Row>

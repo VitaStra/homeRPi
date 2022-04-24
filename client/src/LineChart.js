@@ -56,14 +56,19 @@ function DataAsLineChart(props) {
         console.log('loading...');
         return null;
     } else {
-        return <Line options={options} data={data} />;
+        return <Line
+            options={options}
+            data={data}
+            width={10}
+            height={8}
+        />;
     }
 }
 
 class LineChart extends React.Component {
     render() {
         return (
-            <DataAsLineChart apiService={this.props.apiService} min={this.props.min} max={this.props.max} title={this.props.title}/>
+            <DataAsLineChart apiService={this.props.apiService} min={this.props.min} max={this.props.max} title={this.props.title} />
         );
     }
 }

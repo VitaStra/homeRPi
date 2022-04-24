@@ -1,0 +1,8 @@
+.Card-ctr {
+    text-align: center;
+    padding: 2 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4pt;
+}
